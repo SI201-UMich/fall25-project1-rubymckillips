@@ -1,0 +1,12 @@
+Penguin Data Analysis Results
+===============================
+
+Average flipper length and body mass per species:
+Adelie: average flipper = 189.95 mm, average mass = 3700.66 g
+Gentoo: average flipper = 217.19 mm, average mass = 5076.02 g
+Chinstrap: average flipper = 195.82 mm, average mass = 3733.09 g
+
+Percentage of penguins above their species average body mass:
+Adelie: 46.36% above average body mass
+Gentoo: 47.15% above average body mass
+Chinstrap: 45.59% above average body mass
