@@ -1,8 +1,8 @@
 # Name: Ruby McKillips
 # UM ID: 41668989
 # Email: rubymck@umich.edu
-# Who I worked with: No one; utilized ChatGPT for assistance (see below)
-# How I used AI: 
+# Collaborators: None; utilized ChatGPT for assistance (see below)
+# How I used AI: code assistance, explanations, and adding os.chdir() for directory management
 
 import os
 os.chdir(os.path.dirname(__file__))
@@ -132,28 +132,51 @@ def test_calculate_species_averages():
     print("\nRunning tests for calculate_species_averages()...")
     averages = calculate_species_averages(sample_data)
 
+    # General test cases
     assert 3700 < averages['Adelie']['avg_mass'] < 3800, "Adelie avg mass seems off."
-    assert 210 < averages['Gentoo']['avg_flipper'] < 215, "Gentoo avg flipper off."
+    assert 210 < averages['Gentoo']['avg_flipper'] < 215, "Gentoo avg flipper seems off."
+
+    # Edge test cases 
+    try:
+        calculate_species_averages([['1', 'Adelie', 'Torgersen', '39.1', '18.7', 'NA', '3750', 'male', '2007']])
+    except Exception:
+        assert False, "Function failed on missing flipper data."
+
+    new_data = sample_data + [['7', 'Unknown', 'IslandX', '40.0', '17.5', '180', '3500', 'female', '2007']]
+    result = calculate_species_averages(new_data)
+    assert 'Unknown' in result, "Function failed to include new species."
+
     assert 'Gentoo' in averages, "Gentoo species missing from averages."
-    assert 'Chinstrap' in averages, "Chinstrap missing from averages."
+    assert 'Chinstrap' in averages, "Chinstrap species missing from averages."
+    assert len(averages) > 0, "Averages dictionary is empty."
 
     print("All tests for calculate_species_averages() passed!")
-
 
 def test_calculate_above_average_mass():
     print("\nRunning tests for calculate_above_average_mass()...")
     averages = calculate_species_averages(sample_data)
     percentages = calculate_above_average_mass(sample_data, averages)
 
+    # General test cases
     for p in percentages.values():
         assert 0 <= p <= 100, "Percentage out of range."
 
     assert 'Adelie' in percentages, "Adelie not found in percentage results."
     assert 'Gentoo' in percentages, "Gentoo missing despite partial NA data."
+
+    # Edge test cases
+    bad_data = [['1', 'Adelie', 'Torgersen', '39.1', '18.7', '181', 'NA', 'male', '2007']]
+    try:
+        calculate_above_average_mass(bad_data, averages)
+    except Exception:
+        assert False, "Function crashed with all NA mass values."
+
+    empty_result = calculate_above_average_mass([], averages)
+    assert isinstance(empty_result, dict), "Result should still be a dictionary."
+    assert len(empty_result) == 0, "Empty dataset should produce empty percentages."
     assert len(percentages) > 0, "Percentages dictionary is empty."
 
     print("All tests for calculate_above_average_mass() passed!")
-
 
 
 if __name__ == "__main__":
